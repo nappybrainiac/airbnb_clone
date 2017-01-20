@@ -1,11 +1,11 @@
 import peewee
-from user import user
-from state import state
-from city import city
+from user import User
+from state import State
+from city import City
 from place import Place
 from place_book import PlaceBook
 from amenity import Amenity
-from place_amenity import PlaceAmenities 
+from place_amenity import PlaceAmenities
 
 def create_tables():
     database.connect()

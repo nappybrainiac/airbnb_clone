@@ -1,23 +1,18 @@
-from datetime import datetime
+from app import *
 from flask_json import json_response
-import peewee
-from app import app
+from app.models.base import *
+
 import datetime
-from app.models.base import BaseModel, database
+
 
 
 @app.route('/', methods=['GET'])
-'''
-The browser tells the server to just get
-the information stored on that page and
-send it. This is probably the most common
-method.
-'''
+
 def index():
     return json_response(
     status="OK",
-    utc_time=datetime.utcnow(),
-    time=datetime.now()
+    utc_time=datetime.datetime.utcnow(),
+    time=datetime.datetime.now()
     )
 
 '''
@@ -31,8 +26,9 @@ def before_request():
 Database connections must always be closed
 '''
 @app.after_request
-def after_request():
+def after_request(response):
     database.close()
+    return response
 
 '''
 This function handles 404 errors.
