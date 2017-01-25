@@ -1,5 +1,6 @@
-import peewee
-import base
+from peewee import *
+from base import BaseModel
+
 
 '''Create the State table'''
 class State(BaseModel):

@@ -10,4 +10,4 @@ with from <module> import <member>
 
 '''
 
-__all__ = ["index"]
+__all__ = ["index", "user"]

@@ -8,7 +8,7 @@ import peewee
 
 
 # Creating an instance of a database
-database = MySQLDatabase(
+db = MySQLDatabase(
     database = DATABASE["database"],
     host = DATABASE["host"],
     user = DATABASE["user"],
@@ -27,5 +27,5 @@ class BaseModel(peewee.Model):
 
 
     class Meta:
-        database = database
+        database = db
         order_by = ("id", )

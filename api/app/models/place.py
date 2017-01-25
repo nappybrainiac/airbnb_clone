@@ -1,5 +1,5 @@
-import peewee
-import base
+from peewee import *
+from base import BaseModel
 from user import User
 from city import City
 

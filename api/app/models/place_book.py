@@ -1,7 +1,8 @@
-import peewee
-import base
-from place import place
+from peewee import *
+from base import BaseModel
+from place import Place
 from user import User
+import datetime
 
 '''Create the PlaceBook table'''
 class PlaceBook(BaseModel):

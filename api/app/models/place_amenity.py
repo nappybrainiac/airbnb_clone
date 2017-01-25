@@ -1,7 +1,8 @@
 import peewee
-import base
+from base import BaseModel, db
 from place import Place
 from amenity import Amenity
+from peewee import *
 
 '''Create the PlaceAmenities table'''
 class PlaceAmenities(peewee.Model):
@@ -9,4 +10,4 @@ class PlaceAmenities(peewee.Model):
     amenity = ForeignKeyField(Amenity)
 
     class Meta:
-        database = database
+        database = db

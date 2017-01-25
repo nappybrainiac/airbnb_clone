@@ -1,5 +1,5 @@
-import peewee
-import base
+from peewee import *
+from base import BaseModel
 
 '''The Amenity table'''
 class Amenity(BaseModel):
