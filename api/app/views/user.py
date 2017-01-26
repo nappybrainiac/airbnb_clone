@@ -11,8 +11,8 @@ import flask_json
 def user_create_modify():
     if request.method == 'GET':
         user_list = User.select()
-        #order_values = [i.to_hash for i in user_list]
-        return jsonify(user_list)
+        order_values = [i.to_hash() for i in user_list]
+        return jsonify(order_values)
 
     elif request.method == 'POST':
         ''' To get data from HTML form'''

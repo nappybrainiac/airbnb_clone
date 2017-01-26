@@ -24,6 +24,7 @@ class BaseModel(peewee.Model):
 
     def save(self, *args, **kwargs):
         self.updated_at = datetime.datetime.now()
+        return super(BaseModel, self).save(*args, **kwargs)
 
 
     class Meta:
