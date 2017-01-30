@@ -10,4 +10,4 @@ with from <module> import <member>
 
 '''
 
-__all__ = ["index", "user"]
+__all__ = ["index", "user", "state", "city", "amenity", "place", "place_amenity", "place_book"]
