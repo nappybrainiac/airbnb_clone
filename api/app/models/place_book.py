@@ -2,7 +2,7 @@ from peewee import *
 from base import BaseModel
 from place import Place
 from user import User
-import datetime
+import datetime 
 
 '''Create the PlaceBook table'''
 class PlaceBook(BaseModel):
@@ -16,10 +16,10 @@ class PlaceBook(BaseModel):
     def to_hash(self):
         info = {
                 'id': self.id,
-                'created_at': self.created_at,
-                'updated_at': self.updated_at,
-                'place_id': self.place,
-                'user_id': self.user,
+                'created_at': self.created_at.strftime('%Y/%m/%d %H:%M:%S'),
+                'updated_at': self.updated_at.strftime('%Y/%m/%d %H:%M:%S'),
+                'place_id': self.place_id,
+                'user_id': self.user_id,
                 'is_validated': self.is_validated,
                 'date_start': self.date_start,
                 'number_nights': self.number_nights
