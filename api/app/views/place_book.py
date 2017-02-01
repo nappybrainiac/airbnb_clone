@@ -1,10 +1,9 @@
 from app import app
 from app.models.place import Place
 from app.models.place_book import PlaceBook
-from app.models.base import db
 from flask import request, jsonify, json
 from peewee import *
-import flask
+
 
 
 '''View and create all bookings to a particular place identified by place_id.'''
@@ -12,8 +11,13 @@ import flask
 def view_create_placebook(place_id):
     if request.method == 'GET':
         place = PlaceBook.select().where(PlaceBook.place == place_id)
-        order_values = [i.to_hash() for i in place]
-        return jsonify(order_values)
+
+        if place:
+            order_values = [i.to_hash() for i in place]
+            return jsonify(order_values)
+
+        else:
+            return jsonify(msg="There are no bookings for this place."), 404    
 
     elif request.method == 'POST':
         place = PlaceBook.create(
