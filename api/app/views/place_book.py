@@ -1,3 +1,12 @@
+'''
+Project:    AirBnB Clone
+File:       place_book.py
+By:         Mackenzie Adams, Gloria Bwandungi
+
+This file contains the app decorators that determine how bookings for
+a particular place are viewed, added, and modified in the database.
+'''
+
 from app import app
 from app.models.place import Place
 from app.models.place_book import PlaceBook
@@ -17,7 +26,7 @@ def view_create_placebook(place_id):
             return jsonify(order_values)
 
         else:
-            return jsonify(msg="There are no bookings for this place."), 404    
+            return jsonify(msg="There are no bookings for this place."), 404
 
     elif request.method == 'POST':
         place = PlaceBook.create(

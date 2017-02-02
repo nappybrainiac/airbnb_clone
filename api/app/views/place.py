@@ -1,3 +1,12 @@
+'''
+Project:    AirBnB Clone
+File:       place.py
+By:         Mackenzie Adams, Gloria Bwandungi
+
+This file contains the app decorators that determine how places are viewed
+added, and modified in the database.
+'''
+
 import flask
 from app import app
 from app.models.place import Place

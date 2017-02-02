@@ -1,3 +1,12 @@
+'''
+Project:    AirBnB Clone
+File:       amenity.py
+By:         Mackenzie Adams, Gloria Bwandungi
+
+This file contains the app decorators that determine how amenities are viewed
+added, and modified in the database.
+'''
+
 import flask
 from app import app
 from app.models.amenity import Amenity
@@ -7,7 +16,9 @@ from flask_json import json_response
 from peewee import *
 
 
-'''To return a list of all amenities as a JSON object'''
+'''This function returns JSON lists using GET and POST methods.
+   It lists all the amenities using the GET method, or creates
+   a new one using the POST method'''
 @app.route('/amenities', methods=['GET', 'POST'])
 def amenity_create():
     if request.method == 'GET':

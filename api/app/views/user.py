@@ -1,3 +1,12 @@
+'''
+Project:    AirBnB Clone
+File:       user.py
+By:         Mackenzie Adams, Gloria Bwandungi
+
+This file contains the app decorators that determine how users are viewed
+added, and modified in the database.
+'''
+
 import flask
 from app import app
 from app.models.user import User
@@ -7,7 +16,8 @@ from flask_json import json_response
 from peewee import *
 
 
-'''To return a list of all users as a JSON object'''
+'''This function returns a list of users using the GET method and creates
+   a new record using the POST method. '''
 @app.route('/users', methods=['GET', 'POST'])
 def user_create_modify():
     if request.method == 'GET':
@@ -37,9 +47,11 @@ def user_create_modify():
             user_info.set_password(request.form['password'])
             return jsonify(user_info.to_hash())
 
+'''This function returns a user (by user_id), listing their attributes in JSON format using
+   the GET method, modifies the record using PUT, and deletes it using DELETE '''
 @app.route('/users/<user_id>', methods=['GET', 'PUT', 'DELETE'])
 def modify_user(user_id):
-  user = User.get(User.id == user_id)
+  user = User.select().where(User.id == user_id).first()
 
   if request.method == "GET":
       if user:
@@ -47,31 +59,28 @@ def modify_user(user_id):
       else:
           return jsonify(msg="User does not exist."), 404
 
-
-      if user:
-          return jsonify(user.to_hash())
-
-
-
-
   elif request.method == 'PUT':
+      check_user = User.select().where(User.id == user_id).first()
 
-      user_info = request.values
-      for key in user_info:
-          '''Sustained by MySQL'''
-          if key == 'updated_at' or key == 'created_at' or key == 'id':
-              continue
-          if key == 'first_name':
-              user.first_name = user_info.get(key)
-          if key == 'last_name':
-              user.last_name = user_info.get(key)
-          if key == 'email' or key == 'is_admin':
-              return jsonify(msg="This one cannot be changed")
-          if key == 'password':
-              user.password = user_info.get(key)
+      if not check_user:
+          return jsonify(msg="User does not exist."), 404
 
-      user.save()
-      return jsonify(user.to_hash())
+      else:
+          user_info = request.values
+          for key in user_info:
+              if key == 'updated_at' or key == 'created_at' or key == 'id':
+                  continue
+              if key == 'first_name':
+                  user.first_name = user_info.get(key)
+              if key == 'last_name':
+                  user.last_name = user_info.get(key)
+              if key == 'email' or key == 'is_admin':
+                  return jsonify(msg="Email cannot be changed")
+              if key == 'password':
+                  user.password = user_info.get(key)
+
+          user.save()
+          return jsonify(user.to_hash())
 
   elif request.method == 'DELETE':
       user_info = User.get(User.id == user_id)
