@@ -3,7 +3,8 @@ Project:    AirBnB Clone
 File:       state.py
 By:         Mackenzie Adams, Gloria Bwandungi
 
-This file contains the app decorators that determine how states are viewed
+This file contains the route() decorator to tell Flask what URL
+should trigger our functions and determine how states are viewed
 added, and modified in the database.
 '''
 

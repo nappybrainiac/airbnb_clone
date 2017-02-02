@@ -3,7 +3,8 @@ Project:    AirBnB Clone
 File:       city.py
 By:         Mackenzie Adams, Gloria Bwandungi
 
-This file contains the app decorators that determine how cities are viewed
+This file contains the route() decorator to tell Flask what URL
+should trigger our functions and determine how cities are viewed
 added, and modified in the database.
 '''
 
@@ -16,6 +17,9 @@ from peewee import *
 import flask
 
 
+'''This function returns JSON lists using GET and POST methods.
+   It lists all the cities using the GET method, or creates
+   a new one using the POST method'''
 @app.route('/states/<state_id>/cities', methods=['GET', 'POST'])
 def get_post_cities(state_id):
     if request.method == 'GET':
@@ -42,6 +46,9 @@ def get_post_cities(state_id):
             )
         return jsonify(city.to_hash())
 
+'''This function returns JSON lists using GET and DELETE methods.
+   It lists all the cities in a state by state_id and city_id using
+   the GET method.'''
 @app.route('/states/<state_id>/cities/<city_id>', methods=['GET', 'DELETE'])
 def view_modify_cities(state_id, city_id):
     if request.method == 'GET':

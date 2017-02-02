@@ -3,8 +3,9 @@ Project:    AirBnB Clone
 File:       place_book.py
 By:         Mackenzie Adams, Gloria Bwandungi
 
-This file contains the app decorators that determine how bookings for
-a particular place are viewed, added, and modified in the database.
+This file contains the route() decorator to tell Flask what URL
+should trigger our functions and determine how bookings are viewed
+added, and modified in the database.
 '''
 
 from app import app
@@ -14,8 +15,9 @@ from flask import request, jsonify, json
 from peewee import *
 
 
-
-'''View and create all bookings to a particular place identified by place_id.'''
+'''This function returns JSON lists using GET and POST methods.
+   It lists all the bookings using the GET method, or creates
+   a new one using the POST method'''
 @app.route('/places/<place_id>/books', methods=['GET', 'POST'])
 def view_create_placebook(place_id):
     if request.method == 'GET':

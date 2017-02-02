@@ -3,7 +3,8 @@ Project:    AirBnB Clone
 File:       user.py
 By:         Mackenzie Adams, Gloria Bwandungi
 
-This file contains the app decorators that determine how users are viewed
+This file contains the route() decorator to tell Flask what URL
+should trigger our functions and determine how users are viewed
 added, and modified in the database.
 '''
 
@@ -16,8 +17,10 @@ from flask_json import json_response
 from peewee import *
 
 
-'''This function returns a list of users using the GET method and creates
-   a new record using the POST method. '''
+
+'''This function returns JSON lists using GET and POST methods.
+   It lists all the users using the GET method, or creates
+   a new one using the POST method'''
 @app.route('/users', methods=['GET', 'POST'])
 def user_create_modify():
     if request.method == 'GET':

@@ -3,7 +3,8 @@ Project:    AirBnB Clone
 File:       amenity.py
 By:         Mackenzie Adams, Gloria Bwandungi
 
-This file contains the app decorators that determine how amenities are viewed
+This file contains the route() decorator to tell Flask what URL
+should trigger our functions and determine how amenities are viewed
 added, and modified in the database.
 '''
 
@@ -46,8 +47,9 @@ def amenity_create():
             )
             return jsonify(amenity_info.to_hash())
 
-'''Return a jsonified list of all attributes of a specified amenity using
-   its id'''
+'''This function returns JSON lists using GET and POST methods.
+   It lists a the amenities by amenity_id using the
+   GET method, or creates a new one using the POST method'''
 @app.route('/amenities/<amenity_id>', methods=['GET', 'DELETE'])
 def modify_amenity(amenity_id):
     amenity = Amenity.get(Amenity.id == amenity_id)
@@ -64,9 +66,9 @@ def modify_amenity(amenity_id):
       amenity_info.save()
       return jsonify(msg="Amenity deleted")
 
-'''Return a jsonified list of all attributes of amenities listed in a place
-   using the place_id'''
-
+'''This function returns JSON lists using GET method.
+   It lists a the amenities in a place by place_id using the
+   GET method.'''
 @app.route('/places/<place_id>/amenities', methods=['GET'])
 def place_amenity(place_id):
     amenity_place = PlaceAmenities.get(PlaceAmenities.place == place_id)

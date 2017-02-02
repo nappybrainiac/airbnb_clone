@@ -3,7 +3,8 @@ Project:    AirBnB Clone
 File:       place.py
 By:         Mackenzie Adams, Gloria Bwandungi
 
-This file contains the app decorators that determine how places are viewed
+This file contains the route() decorator to tell Flask what URL
+should trigger our functions and determine how places are viewed
 added, and modified in the database.
 '''
 
@@ -19,6 +20,9 @@ from flask_json import json_response
 from peewee import *
 
 
+'''This function returns JSON lists using GET and POST methods.
+   It lists all the places using the GET method, or creates
+   a new one using the POST method'''
 @app.route('/places', methods = ['GET', 'POST'])
 def list_post_places():
     if request.method == 'GET':
@@ -41,6 +45,10 @@ def list_post_places():
         )
         return jsonify(place_info.to_hash())
 
+'''This function returns JSON lists using GET and POST methods.
+   It lists all the attributes of a place by place_id using
+   the GET method, creates a new one using the POST method, or
+   DELETES it.'''
 @app.route('/places/<place_id>', methods=['GET', 'PUT', 'DELETE'])
 def list_put_delete():
     place = Place.get().where(Place.id == place_id)
@@ -84,7 +92,9 @@ def list_put_delete():
         place_info.save()
         return jsonify(msg='Place deleted')
 
-'''View and/or create a place using state_id and city_id'''
+'''This function returns JSON lists using GET and POST methods.
+   It lists all the places in a particular city in a particular
+   state using the GET method, or creates a new one using the POST method.'''
 @app.route('/states/<state_id>/cities/<city_id>/places', methods=['GET', 'POST'])
 def list_place_by_state():
     place_info = Place.get().where(Place.state == state_id).where(Place.city == city_id)
