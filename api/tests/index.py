@@ -27,30 +27,25 @@ class FlaskrTestCase(unittest.TestCase):
           self.assertEqual(resp.status_code, 200)
 
     def test_status(self):
-        '''Is the JSON reponse status == OK?'''
+        '''Is the reponse status == OK?'''
         resp = self.app.get('/')
         resp_data = json.loads(resp.data)
         self.assertEqual(resp_data.get("status"), "OK")
 
     def test_time(self):
-        '''Is the JSON reponse time == time right now?'''
+        '''Is the reponse time == time right now?'''
         resp = self.app.get('/')
-        now = datetime.now().strftime("%Y/%m/%d %H:%M")
-        try:
-            right_now = datetime.strptime(resp.json['time'], "%Y/%m/%d %H:%M:%S")
-        except ValueError as err:
-            print "The HTTP response 'time' format is incorrect."
-        self.assertEqual(now, right_now.strftime("%Y/%m/%d %H:%M"))
+
+        resp_dict = json.loads(resp.data)
+        self.assertEqual(resp_dict['time'], datetime.now().strftime('%Y/%m/%d %H:%M:%S'))
 
     def test_time_utc(self):
-        '''Is the JSON reponse time == time right now?'''
-        resp = self.app.get('/')
-        now = datetime.now().strftime("%Y/%m/%d %H:%M")
-        try:
-            right_now = datetime.strptime(resp.json['time'], "%Y/%m/%d %H:%M:%S")
-        except ValueError as err:
-          print "The HTTP response 'time' format is incorrect."
-        self.assertEqual(now, right_now.strftime("%Y/%m/%d %H:%M"))
+      '''Is the reponse utctime == utctime right now?'''
+      resp = self.app.get('/')
+
+      resp_dict = json.loads(resp.data)
+      self.assertEqual(resp_dict['utc_time'], datetime.utcnow().strftime('%Y/%m/%d %H:%M:%S'))
+
 
 
 
