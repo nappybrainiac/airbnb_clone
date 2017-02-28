@@ -29,7 +29,18 @@ class FlaskrTestCase_User(unittest.TestCase):
         db.drop_tables([User], safe=True)
 
     def test_create(self):
-        pass
+        #send a POST request to app
+        response = self.app.post('/users', data = dict(first_name = 'Jon',
+                                                       last_name = 'Snow',
+                                                       email = 'jon@snow.com',
+                                                       password = 'first'))
+
+        #send a POST request to app
+        response = self.app.post('/users', data = dict(first_name = 'Jon',
+                                                       last_name = 'Snow',
+                                                       email = 'jon@snow.com',
+                                                       password = 'first'))
+
 
     def test_list(self):
         pass
