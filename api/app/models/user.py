@@ -5,7 +5,7 @@ import hashlib
 
 '''Create the User table'''
 class User(BaseModel):
-    email = CharField(128, null = False, unique = False)
+    email = CharField(128, null = False, unique = False) 
     password = CharField(128, null = False)
     first_name = CharField(128, null = False)
     last_name = CharField(128, null = False)

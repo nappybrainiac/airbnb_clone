@@ -20,10 +20,10 @@ class Place(BaseModel):
     def to_hash(self):
         info = {
                 'id': self.id,
-                'created_at': self.created_at,
-                'updated_at': self.updated_at,
-                'owner_id': self.owner_id,
-                'city_id': self.city_id,
+                'created_at': self.created_at.strftime('%Y/%m/%d %H:%M:%S'),
+                'updated_at': self.updated_at.strftime('%Y/%m/%d %H:%M:%S'),
+                'owner': self.owner_id,
+                'city': self.city_id,
                 'name': self.name,
                 'description': self.description,
                 'number_rooms': self.number_rooms,
