@@ -9,15 +9,14 @@ import logging
 
 class AppTestCase(unittest.TestCase):
     def setUp(self):
+        self.app = app
         # create a test client
         self.app = app.test_client()
+        self.app.response_class = JsonTestResponse
         # disable logging except for critical cases
         logging.disable(logging.CRITICAL)
         # create User table
         db.create_tables([User], safe=True)
-
-    def tearDown(self):
-        db.drop_table(User)
 
     def test_create(self):
         # post an account to User table
@@ -27,7 +26,7 @@ class AppTestCase(unittest.TestCase):
             first_name='Gi',
             last_name='Jubs'
         ))
-        self.assertEqual(User.select(id), 1)
+        self.assertEqual(User.select(id), 1, 'user account not created')
 
         # post an account without an email address
         self.app.post('/users', data=dict(
@@ -36,7 +35,7 @@ class AppTestCase(unittest.TestCase):
             first_name='zi',
             last_name='buju'
         ))
-        self.assertEqual(User.select(id), 2)
+        self.assertEqual(User.select(id), 2,  'user account not created')
 
         # post an account with same email address
         self.app.post('/users', data=dict(
@@ -45,7 +44,7 @@ class AppTestCase(unittest.TestCase):
             first_name='sp',
             last_name='plix'
         ))
-        self.assertEqual(User.select(id), 3)
+        self.assertEqual(User.select(id), 3,  'user account not created')
 
         # post an account to User table
         self.app.post('/users', data=dict(
@@ -54,7 +53,7 @@ class AppTestCase(unittest.TestCase):
             first_name='Zee',
             last_name='Jubs'
         ))
-        self.assertEqual(User.select(id), 4)
+        self.assertEqual(User.select(id), 4,  'user account not created')
 
     def test_list(self):
         '''sends HTTP GET request to the app
@@ -66,21 +65,26 @@ class AppTestCase(unittest.TestCase):
             return len(all_users)
         except:
             return 0
+        assertEqual(res.status_code, 200)
 
     def test_get(self):
-        # create a user and GET the user
-        new_user = self.app.post('/users', data=dict(
-                email='gigi@jujubs.com',
-                password='yiyi',
-                first_name='gigi',
-                last_name='jujubs'
+        new_acct = self.app.post('/users', data=dict(
+            email='gigi@jujubs.com',
+            password='gigi',
+            first_name='Gi',
+            last_name='Jubs'
         ))
-        # Checking the status code
-        print new_user.status_code
-        # Getting the user
-        # checking if the user created is the same as the user returned
-        # will return True is the  users match else will return false
-        # checking when trying to get an id that is not linked to an user
+        self.assertEqual(User.select(id), 1, 'user account not created')
+        res = self.app.get('/users/1').data
+        # verify that the new_acct is the same as res
+        self.assertEqual(sorted(res), sorted(new_acct.data),
+                         'new account is not the same as what\'s listed')
+
+        print self.app.get("/users/1").status_code
+
+
+    def tearDown(self):
+        db.drop_table(User)
 
 
 if __name__ == '__main__':
