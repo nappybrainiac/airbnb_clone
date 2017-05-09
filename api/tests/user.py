@@ -18,6 +18,13 @@ class AppTestCase(unittest.TestCase):
         # create User table
         db.create_tables([User], safe=True)
 
+    def test_user_status_code(self):
+        # testing to check the status code of a simple GET
+        # request from 'localhost:3333/users'
+        user_res = self.app.get('/users')
+        self.assertEqual(user_res.status_code, 200,
+                         '/users is not returning anything.')
+
     def test_create(self):
         # post an account to User table
         self.app.post('/users', data=dict(
@@ -80,8 +87,31 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(sorted(res), sorted(new_acct.data),
                          'new account is not the same as what\'s listed')
 
-        print self.app.get("/users/1").status_code
+        # try accessing an account that doesn't exist.
+        # res = self.app.get('/users/3')
+        # assert res.status_code == 404
 
+    def test_update(self):
+        new_acct = self.app.post('/users', data=dict(
+            email='gigi@jujubs.com',
+            password='gigi',
+            first_name='Gi',
+            last_name='Jubs'
+        ))
+        self.assertEqual(User.select(id), 1, 'user account not created')
+        res = self.app.get('/users/1').data
+        # verify that the new_acct is the same as res
+        self.assertEqual(sorted(res), sorted(new_acct.data),
+                         'new account is not the same as what\'s listed')
+        # update it.
+        trial = self.app.put('/users/1', data=dict(email='geegee@jujubz.edu'))
+        # check status code
+        updated_acct = self.app.get('/users/1')
+        assert b'geegee@jujubz.edu' not in trial.data
+
+        # try updating an account that doesn't exist.
+        bad_update = self.app.put('/users/2', data=dict(first_name='Laturu'))
+        self.assertEqual(bad_update.status_code, 404, 'user does not exist')
 
     def tearDown(self):
         db.drop_table(User)
